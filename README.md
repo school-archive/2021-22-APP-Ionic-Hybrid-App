@@ -1,12 +1,19 @@
 # 2021-22-Ionic-Hybrid-App
 
+## Getting started
+
 Install Ionic CLI:
-```bash
+```shell
 npm install -g @ionic/cli
 ```
 
+Install dependencies:
+```shell
+npm install
+```
+
 Serve Ionic as web app:
-```bash
+```shell
 ionic serve
 ```
 
