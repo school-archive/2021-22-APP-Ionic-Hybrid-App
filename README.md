@@ -22,3 +22,6 @@ https://ionicframework.com/docs/
 
 Ionic Vue tutorial:
 https://ionicframework.com/docs/vue/your-first-app
+
+Ionic Data Storage API:
+https://ionicframework.com/docs/vue/storage
