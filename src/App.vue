@@ -16,3 +16,10 @@ export default defineComponent({
   }
 });
 </script>
+
+<style>
+ion-chip {
+  background-color: lightgrey;
+  border-radius: 25px;
+}
+</style>
