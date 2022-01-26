@@ -47,6 +47,8 @@ export default defineComponent({
 
 <style scoped>
 .list-item {
+  opacity: .5;
+  filter: blur();
   --padding-start: 0;
   --inner-padding-end: 0;
 }
