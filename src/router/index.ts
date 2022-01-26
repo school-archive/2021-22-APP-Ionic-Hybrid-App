@@ -6,7 +6,7 @@ import TrackPage from '../views/TrackPage.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/home'
+    redirect: '/track'
   },
   {
     path: '/home',
