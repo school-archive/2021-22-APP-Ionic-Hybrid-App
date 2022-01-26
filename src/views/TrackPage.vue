@@ -11,7 +11,7 @@
 
       <ion-list>
         <ion-list-header>Tracked Time Entries</ion-list-header>
-        <time-entry :tags="['Tag1','Tag2','Tag3']" :from="Date.now()" :until="Date.now() + 1000 * 60 * 35 + 1000 * 60 * 60 * 3"/>
+        <time-entry :tags="['Tag1','Tag2','Tag3']" :from="new Date()" :until="new Date(Date.now() + 1000 * 60 * 35 + 1000 * 60 * 60 * 3)"/>
       </ion-list>
     </ion-content>
   </ion-page>
