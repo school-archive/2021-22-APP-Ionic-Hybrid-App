@@ -7,6 +7,11 @@ Install Ionic CLI:
 npm install -g @ionic/cli
 ```
 
+Install Ionic Storage:
+```shell
+npm install -g @ionic/storage
+```
+
 Install dependencies:
 ```shell
 npm install
