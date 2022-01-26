@@ -1,40 +1,38 @@
 <template>
   <ion-text>
     <ion-input placeholder="Enter Tag"/>
-    <ion-button fill="clear" id="start-time">16:12</ion-button>
-    <ion-button fill="clear" id="end-time">--:--</ion-button>
+    <ion-button fill="clear" id="begin">{{ beginDate ? formatDateTime(beginDate) : 'Startzeit' }}</ion-button>
+    <ion-button fill="clear" id="end">{{ endDate ? formatDateTime(endDate) : 'Endzeit' }}</ion-button>
     <ion-button>Add Time</ion-button>
 
-    <ion-modal trigger="start-time" :show-backdrop="false" :dismiss-on-select="true" side="start" alignment="center">
-      <ion-content force-overscroll="false">
-        <ion-datetime  presentation="date"/>
-        <ion-button fill="clear">Done</ion-button>
-      </ion-content>
-    </ion-modal>
-
-    <ion-popover trigger="end-time" :show-backdrop="false" :dismiss-on-select="true">
-      <ion-content force-overscroll="false">
-        <ion-datetime></ion-datetime>
-        <ion-button fill="clear">Done</ion-button>
-      </ion-content>
-    </ion-popover>
+    <date-picker trigger="begin" @input="value => beginDate = value" />
+    <date-picker trigger="end" @input="value => endDate = value" />
   </ion-text>
 </template>
 
 <script>
 import { IonModal, IonButton, IonContent, IonDatetime, IonPopover } from '@ionic/vue';
+import DatePicker from "@/components/DatePicker";
+import {formatDateTime} from "@/utils/time";
 
 export default {
   name: "TrackComponent",
-  components: { IonModal, IonButton, IonContent, IonDatetime },
+  components: {DatePicker, IonButton },
   data: () => ({
     tagInput: null,
     modalBegin: false,
     modalEnd: false,
+    beginDate: null,
+    endDate: null,
   }),
+  methods: {
+    formatDateTime,
+  }
 }
 </script>
 
 <style scoped>
-
+ion-modal {
+  /*--height: 500px;*/
+}
 </style>
