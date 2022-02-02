@@ -1,23 +1,28 @@
 <template>
   <ion-text>
-    <ion-item>
+    <ion-item lines="full">
       <ion-label position="fixed">Startzeit</ion-label>
-      <ion-button fill="clear" id="begin">{{ beginDate ? formatDateTime(beginDate) : 'Keine Zeit ausgewählt' }}</ion-button>
+      <ion-button fill="clear" id="begin">{{ beginDate ? formatDateTime(beginDate) : 'Keine Startzeit ausgewählt' }}</ion-button>
     </ion-item>
 
-    <ion-item>
+    <ion-item lines="full">
       <ion-label position="fixed">Endzeit</ion-label>
-      <ion-button fill="clear" id="end">{{ endDate ? formatDateTime(endDate) : 'Keine Zeit ausgewählt' }}</ion-button>
+      <ion-button fill="clear" id="end">{{ endDate ? formatDateTime(endDate) : 'Keine Endzeit ausgewählt' }}</ion-button>
     </ion-item>
 
-    <ion-item>
+    <ion-item lines="none">
       <ion-label position="fixed">Tags</ion-label>
-      <ion-input placeholder="Enter Tag..." @input="event => tags = event.target.value" />
+      <ion-input placeholder="Tags eingeben..." @input="event => tags = event.target.value" />
     </ion-item>
 
-    <tag-chips :tags="tagsList" />
+    <ion-item lines="full">
+      <ion-label position="fixed"></ion-label>
+      <tag-chips :tags="tagsList" />
+    </ion-item>
 
-    <ion-button>Add Time</ion-button>
+    <div class="add">
+      <ion-button class="add-button"><ion-icon slot="start" name="add"></ion-icon>Zeit hinzufügen</ion-button>
+    </div>
 
     <date-picker trigger="begin" @input="value => beginDate = value" />
     <date-picker trigger="end" @input="value => endDate = value" />
@@ -52,5 +57,13 @@ export default {
 <style scoped>
 ion-modal {
   /*--height: 500px;*/
+}
+.add-button {
+  margin: 10px;
+}
+.add {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
 }
 </style>

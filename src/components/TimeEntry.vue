@@ -1,6 +1,6 @@
 <template>
   <ion-item-sliding>
-    <ion-item>
+    <ion-item lines="full">
       <tag-chips :tags="tags" />
       <p>{{ timeInHours }}:{{timeInMinutes}} h</p>
     </ion-item>
