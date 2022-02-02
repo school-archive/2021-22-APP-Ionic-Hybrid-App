@@ -32,7 +32,7 @@
 <script>
 import { IonModal, IonButton, IonContent, IonDatetime, IonPopover } from '@ionic/vue';
 import DatePicker from "@/components/DatePicker";
-import {formatDateTime} from "@/utils/time";
+import {formatDateTime, toDate} from "@/utils/time";
 import TagChips from "@/components/TagChips";
 
 export default {
@@ -47,9 +47,9 @@ export default {
     formatDateTime,
     addEntry() {
       this.$emit('add', {
-        tags: this.tags,
-        startTime: this.beginDate,
-        endTime: this.endDate,
+        tags: this.tagsList,
+        startTime: toDate(this.beginDate),
+        endTime: toDate(this.endDate),
       });
     }
   },

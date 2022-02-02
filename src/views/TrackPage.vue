@@ -66,7 +66,7 @@ export default {
         endTime: endTime.valueOf(),
         tags
       };
-      this.entries.push(timeEntry);
+      this.entries.unshift(timeEntry);
       this.saveStorage();
       const toast = await toastController
           .create({
