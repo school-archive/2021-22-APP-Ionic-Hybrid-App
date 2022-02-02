@@ -1,5 +1,5 @@
 <template>
-  <ion-modal :trigger="trigger" :is-open="open" :breakpoints="[0.0, 0.7, 0.95]" :initialBreakpoint="0.7" @didDismiss="clear()">
+  <ion-modal :trigger="trigger" :is-open="open" :breakpoints="[0.0, 0.7, 0.95]" :initialBreakpoint="0.7" @didDismiss="mode === 'filter' ? $emit('close') : clear()">
 <!--    <ion-content force-overscroll="false">-->
       <div>
 <!--        <ion-toolbar>-->
@@ -27,7 +27,7 @@
         </ion-item>
 
         <div class="add">
-          <ion-button @click="clear()" class="add-button" color="medium">
+          <ion-button @click="mode === 'filter' ? $emit('close') : clear()" class="add-button" color="medium">
             <ion-icon slot="start" name="close-outline"></ion-icon>
             Abbrechen
           </ion-button>
@@ -84,7 +84,11 @@ export default {
         startTime: inverse ? endDate : beginDate,
         endTime: inverse ? beginDate : endDate,
       });
-      this.clear();
+      if(this.mode === 'filter') {
+        this.$emit('close');
+      } else {
+        this.clear();
+      }
     },
     clear() {
       this.tags = '';
@@ -125,6 +129,7 @@ ion-modal {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  margin-top: 10px;
 }
 .filter-delete {
   display: flex;

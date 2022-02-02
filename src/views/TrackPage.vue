@@ -130,9 +130,11 @@ export default {
     filteredEntries() {
       return this.entries
           .filter(entry =>
-              (this.activeFilters.tags || this.activeFilters.tags.length || !this.activeFilters.tags.some(tag => !entry.tags.includes(tag)))
-              ||
-              (this.activeFilters.startTime <= entry.startTime && this.activeFilters.endTime >= entry.endTime)
+              ((this.activeFilters.tags && this.activeFilters.tags.length) ? this.activeFilters.tags.some(tag => entry.tags.includes(tag)) : true)
+              &&
+              (this.activeFilters.startTime ? this.activeFilters.startTime <= entry.startTime : true)
+              &&
+              (this.activeFilters.endTime ? this.activeFilters.endTime >= entry.endTime : true)
           );
     }
   }
@@ -145,7 +147,7 @@ export default {
   justify-content: space-between;
 }
 .no-entries {
-  height: 500px;
+  height: calc(100% - 56px - 9px - 44px);
   display: flex;
   flex-direction: column;
   justify-content: center;
