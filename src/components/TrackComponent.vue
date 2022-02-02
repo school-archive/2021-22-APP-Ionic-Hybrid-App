@@ -18,7 +18,7 @@
 
         <ion-item lines="none">
           <ion-label position="fixed">Tags</ion-label>
-          <ion-input placeholder="Tags eingeben..." @input="event => tags = event.target.value" />
+          <ion-input placeholder="Tags eingeben..." :value="tags" @input="event => tags = event.target.value" />
         </ion-item>
 
         <ion-item lines="full">
@@ -37,8 +37,8 @@
           </ion-button>
         </div>
 
-        <div v-if="mode === 'filter'" class="add">
-          <ion-button @click="() => { clear(); addEntry(); }" class="add-button" color="tertiary" :disabled="isDisabled">
+        <div v-if="mode === 'filter'" class="filter-delete">
+          <ion-button @click="() => { clear(); addEntry(); }" class="add-button" color="tertiary">
             <ion-icon slot="start" name="trash-outline"></ion-icon>
             Filter löschen
           </ion-button>
@@ -76,10 +76,13 @@ export default {
   methods: {
     formatDateTime,
     addEntry() {
+      const beginDate = toDate(this.beginDate);
+      const endDate = toDate(this.endDate);
+      const inverse = beginDate > endDate;
       this.$emit('submit', {
         tags: this.tagsList,
-        startTime: toDate(this.beginDate),
-        endTime: toDate(this.endDate),
+        startTime: inverse ? endDate : beginDate,
+        endTime: inverse ? beginDate : endDate,
       });
       this.clear();
     },
@@ -120,8 +123,13 @@ ion-modal {
 }
 .add {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 20px;
+}
+.filter-delete {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -20px;
 }
 .title {
   margin-top: 20px;

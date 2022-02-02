@@ -28,7 +28,11 @@
         </ion-button>
       </div>
 
-      <ion-list>
+      <div v-if="!(filtersAreActive ? filteredEntries : entries).length" class="no-entries">
+        <ion-icon name="sad-outline" style="font-size: 30px; margin-bottom: 15px;"/>
+        <span>Keine Einträge</span>
+      </div>
+      <ion-list v-else>
         <time-entry v-for="timeEntry in (filtersAreActive ? filteredEntries : entries)"
                     :key="timeEntry.tags + timeEntry.startTime + timeEntry.endTime"
                     @delete="deleteEntry(entries.indexOf(timeEntry))"
@@ -60,8 +64,8 @@ export default {
     entries: [],
     activeFilters: {
       tags: [],
-      startDate: null,
-      endDate: null,
+      startTime: null,
+      endTime: null,
     },
     modalAdd: false,
     modalEdit: false,
@@ -74,8 +78,12 @@ export default {
     await this.loadStorage();
   },
   methods: {
-    setFilters(data) {
-      this.activeFilters = data;
+    setFilters({ startTime, endTime, tags }) {
+      this.activeFilters = {
+        startTime: startTime.valueOf(),
+        endTime: endTime.valueOf(),
+        tags
+      };
     },
     addTestEntry() {
       this.addEntry({ startTime: new Date(), endTime: new Date(Date.now() + 1000 * 60 * 35 + 1000 * 60 * 60 * 3), tags: ['Tag1','Tag2','Tag3'] })
@@ -116,16 +124,15 @@ export default {
   },
   computed: {
     filtersAreActive() {
-      return (this.activeFilters.tags && this.activeFilters.tags.length > 0) || this.activeFilters.startDate || this.activeFilters.endDate;
+      console.log(this.activeFilters)
+      return (this.activeFilters.tags && this.activeFilters.tags.length > 0) || this.activeFilters.startTime || this.activeFilters.endTime;
     },
     filteredEntries() {
       return this.entries
           .filter(entry =>
-            (this.activeFilters.tags === null || this.activeFilters.tags.length === 0 || ! this.activeFilters.tags.some(tag => ! entry.tags.includes(tag))) &&
-              (this.activeFilters.date === null ||
-                  this.activeFilters.date % (24 * 60 * 60 * 1000) >= entry.startDate % (24 * 60 * 60 * 1000) &&
-                  this.activeFilters.date % (24 * 60 * 60 * 1000) <= entry.endDate % (24 * 60 * 60 * 1000)
-              )
+              (this.activeFilters.tags || this.activeFilters.tags.length || !this.activeFilters.tags.some(tag => !entry.tags.includes(tag)))
+              ||
+              (this.activeFilters.startTime <= entry.startTime && this.activeFilters.endTime >= entry.endTime)
           );
     }
   }
@@ -136,5 +143,14 @@ export default {
 .entries-header {
   display: flex;
   justify-content: space-between;
+}
+.no-entries {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-style: italic;
+  color: grey;
 }
 </style>
