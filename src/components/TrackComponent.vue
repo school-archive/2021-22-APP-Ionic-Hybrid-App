@@ -31,9 +31,16 @@
             <ion-icon slot="start" name="close-outline"></ion-icon>
             Abbrechen
           </ion-button>
-          <ion-button @click="addEntry" :disabled="!(tags && beginDate && endDate)" class="add-button">
+          <ion-button @click="addEntry()" :disabled="isDisabled" class="add-button">
             <ion-icon slot="start" :name="getByMode('add-outline', 'checkmark-outline', 'flash-outline')"></ion-icon>
             {{ getByMode('Zeit hinzufügen', 'Zeit aktualisieren', 'Filter anwenden') }}
+          </ion-button>
+        </div>
+
+        <div v-if="mode === 'filter'" class="add">
+          <ion-button @click="() => { clear(); addEntry(); }" class="add-button" color="tertiary" :disabled="isDisabled">
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            Filter löschen
           </ion-button>
         </div>
 
@@ -74,6 +81,7 @@ export default {
         startTime: toDate(this.beginDate),
         endTime: toDate(this.endDate),
       });
+      this.clear();
     },
     clear() {
       this.tags = '';
@@ -93,6 +101,11 @@ export default {
   computed: {
     tagsList() {
       return this.tags ? [...new Set(this.tags.trim().split(/\s+/g))] : [];
+    },
+    isDisabled() {
+      return this.mode === 'filter' ?
+          !(this.tags || this.beginDate || this.endDate) :
+          !(this.tags && this.beginDate && this.endDate);
     }
   }
 }

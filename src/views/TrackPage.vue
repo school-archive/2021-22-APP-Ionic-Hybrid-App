@@ -37,7 +37,7 @@
 
       <track-component mode="add" :open="modalAdd" @submit="data => addEntry(data)" @close="modalAdd = false" />
       <track-component mode="edit" :open="modalEdit" @close="modalEdit = false" />
-      <track-component mode="filter" :open="modalFilter" @close="modalFilter = false" />
+      <track-component mode="filter" :open="modalFilter" @submit="data => setFilters(data)" @close="modalFilter = false" />
     </ion-content>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -60,7 +60,8 @@ export default {
     entries: [],
     activeFilters: {
       tags: [],
-      date: null,
+      startDate: null,
+      endDate: null,
     },
     modalAdd: false,
     modalEdit: false,
@@ -73,6 +74,9 @@ export default {
     await this.loadStorage();
   },
   methods: {
+    setFilters(data) {
+      this.activeFilters = data;
+    },
     addTestEntry() {
       this.addEntry({ startTime: new Date(), endTime: new Date(Date.now() + 1000 * 60 * 35 + 1000 * 60 * 60 * 3), tags: ['Tag1','Tag2','Tag3'] })
     },
@@ -112,12 +116,12 @@ export default {
   },
   computed: {
     filtersAreActive() {
-      return (this.activeFilters.tags !== null && this.activeFilters.tags.length > 0) || this.activeFilters.date !== null;
+      return (this.activeFilters.tags && this.activeFilters.tags.length > 0) || this.activeFilters.startDate || this.activeFilters.endDate;
     },
     filteredEntries() {
       return this.entries
           .filter(entry =>
-            (this.activeFilters.tags === null || this.activeFilters.tags.length === 0 || ! this.activeFilters.tags.some(tag => ! entry.tags.contains(tag))) &&
+            (this.activeFilters.tags === null || this.activeFilters.tags.length === 0 || ! this.activeFilters.tags.some(tag => ! entry.tags.includes(tag))) &&
               (this.activeFilters.date === null ||
                   this.activeFilters.date % (24 * 60 * 60 * 1000) >= entry.startDate % (24 * 60 * 60 * 1000) &&
                   this.activeFilters.date % (24 * 60 * 60 * 1000) <= entry.endDate % (24 * 60 * 60 * 1000)
