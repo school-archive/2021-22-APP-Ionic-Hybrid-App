@@ -1,14 +1,21 @@
 <template>
   <ion-text>
-    <ion-input placeholder="Enter Tag..." @input="event => tags = event.target.value" />
-    <div v-show="tags">
-      <ion-chip v-for="tag in tagsList" :key="tag">
-        <ion-label>{{ tag }}</ion-label>
-      </ion-chip>
-    </div>
-    <ion-button fill="clear" id="begin">{{ beginDate ? formatDateTime(beginDate) : 'Startzeit' }}</ion-button>
-    <ion-button fill="clear" id="end">{{ endDate ? formatDateTime(endDate) : 'Endzeit' }}</ion-button>
-    <ion-input></ion-input>
+    <ion-item>
+      <ion-label position="fixed">Startzeit</ion-label>
+      <ion-button fill="clear" id="begin">{{ beginDate ? formatDateTime(beginDate) : 'Keine Zeit ausgewählt' }}</ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="fixed">Endzeit</ion-label>
+      <ion-button fill="clear" id="end">{{ endDate ? formatDateTime(endDate) : 'Keine Zeit ausgewählt' }}</ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="fixed">Tags</ion-label>
+      <ion-input placeholder="Enter Tag..." @input="event => tags = event.target.value" />
+    </ion-item>
+
+    <tag-chips :tags="tagsList" />
 
     <ion-button>Add Time</ion-button>
 
@@ -21,10 +28,11 @@
 import { IonModal, IonButton, IonContent, IonDatetime, IonPopover } from '@ionic/vue';
 import DatePicker from "@/components/DatePicker";
 import {formatDateTime} from "@/utils/time";
+import TagChips from "@/components/TagChips";
 
 export default {
   name: "TrackComponent",
-  components: {DatePicker, IonButton },
+  components: {TagChips, DatePicker, IonButton },
   data: () => ({
     tags: '',
     beginDate: null,
@@ -35,8 +43,7 @@ export default {
   },
   computed: {
     tagsList() {
-      console.log(this.tags)
-      return [...new Set(this.tags.trim().split(/\s+/g))];
+      return this.tags ? [...new Set(this.tags.trim().split(/\s+/g))] : [];
     }
   }
 }

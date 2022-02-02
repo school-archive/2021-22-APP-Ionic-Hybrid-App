@@ -1,11 +1,7 @@
 <template>
   <ion-item-sliding>
     <ion-item>
-      <div class="tags">
-        <ion-chip v-for="tag in tags" :key="tag">
-          <ion-label>{{ tag }}</ion-label>
-        </ion-chip>
-      </div>
+      <tag-chips :tags="tags" />
       <p>{{ timeInHours }}:{{timeInMinutes}} h</p>
     </ion-item>
     <ion-item-options side="start">
@@ -19,11 +15,11 @@
 </template>
 
 <script>
-
-
+import TagChips from "@/components/TagChips";
 export default {
   name: "TimeEntry",
   components: {
+    TagChips
   },
   props: {
     from: Date,
@@ -53,9 +49,6 @@ export default {
 
   .input-wrapper {
     display: flex;
-  }
-  .tags {
-    flex-grow: 1;
   }
 
 </style>
