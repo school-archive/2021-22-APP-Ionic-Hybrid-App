@@ -20,7 +20,7 @@
 <!--      </ion-modal>-->
 
       <div class="entries-header">
-        <ion-title>Getrackte Zeiten</ion-title>
+        <ion-title>Zeit gesamt: {{ totalTime }}</ion-title>
         <ion-button id="filter-button" @click="modalFilter = true" color="dark" fill="clear">
           <ion-icon slot="start" name="filter-outline"></ion-icon>
           Filter&nbsp;
@@ -55,6 +55,7 @@ import TrackComponent from "@/components/TrackComponent";
 import TimeEntry from "@/components/TimeEntry";
 import { Storage } from '@ionic/storage';
 import {toastController} from "@ionic/vue";
+import {formatDate} from "@/utils/time";
 
 export default {
   name: "TrackPage",
@@ -78,6 +79,7 @@ export default {
     await this.loadStorage();
   },
   methods: {
+    formatDate,
     setFilters({ startTime, endTime, tags }) {
       this.activeFilters = {
         startTime: startTime.valueOf(),
@@ -123,6 +125,10 @@ export default {
     }
   },
   computed: {
+    totalTime() {
+      const time = (this.filtersAreActive ? this.filteredEntries : this.entries).reduce((acc, curr) => acc += curr.endTime - curr.startTime, 0);
+      return `${Math.floor(time / (1000 * 60 * 60))}:${Math.floor(time / 1000 / 60) % 60} h`;
+    },
     filtersAreActive() {
       console.log(this.activeFilters)
       return (this.activeFilters.tags && this.activeFilters.tags.length > 0) || this.activeFilters.startTime || this.activeFilters.endTime;

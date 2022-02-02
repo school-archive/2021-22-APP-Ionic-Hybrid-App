@@ -2,6 +2,7 @@
   <ion-item-sliding>
     <ion-item lines="full">
       <tag-chips :tags="tags" />
+      <p class="dates">{{ formatDate(from, 'dd.MM.') }} bis {{ formatDate(until, 'dd.MM.') }}</p>
       <p>{{ timeInHours }}:{{timeInMinutes}} h</p>
     </ion-item>
     <ion-item-options side="start">
@@ -16,6 +17,7 @@
 
 <script>
 import TagChips from "@/components/TagChips";
+import {formatDate} from "@/utils/time";
 export default {
   name: "TimeEntry",
   components: {
@@ -31,6 +33,9 @@ export default {
       "editStart",
       "editEnd",
   ],
+  methods: {
+    formatDate,
+  },
   computed: {
     timeDiff() {
       return this.until - this.from;
@@ -49,6 +54,10 @@ export default {
 
   .input-wrapper {
     display: flex;
+  }
+
+  .dates {
+    margin-right: 15px;
   }
 
 </style>
