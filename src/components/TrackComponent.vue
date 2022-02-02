@@ -1,32 +1,47 @@
 <template>
-  <ion-text>
-    <ion-item lines="full">
-      <ion-label position="fixed">Startzeit</ion-label>
-      <ion-button fill="clear" id="begin">{{ beginDate ? formatDateTime(beginDate) : 'Keine Startzeit ausgewählt' }}</ion-button>
-    </ion-item>
+  <ion-modal :trigger="trigger" :is-open="open" :breakpoints="[0.0, 0.7, 0.95]" :initialBreakpoint="0.7" @didDismiss="clear()">
+<!--    <ion-content force-overscroll="false">-->
+      <div>
+<!--        <ion-toolbar>-->
+          <ion-title class="title">{{ getByMode('Neue Zeit', 'Zeit bearbeiten', 'Filter') }}</ion-title>
+<!--        </ion-toolbar>-->
 
-    <ion-item lines="full">
-      <ion-label position="fixed">Endzeit</ion-label>
-      <ion-button fill="clear" id="end">{{ endDate ? formatDateTime(endDate) : 'Keine Endzeit ausgewählt' }}</ion-button>
-    </ion-item>
+        <ion-item lines="full">
+          <ion-label position="fixed">Startzeit</ion-label>
+          <ion-button fill="clear" :id="getIdByMode('begin')">{{ beginDate ? formatDateTime(beginDate) : 'Keine Startzeit ausgewählt' }}</ion-button>
+        </ion-item>
 
-    <ion-item lines="none">
-      <ion-label position="fixed">Tags</ion-label>
-      <ion-input placeholder="Tags eingeben..." @input="event => tags = event.target.value" />
-    </ion-item>
+        <ion-item lines="full">
+          <ion-label position="fixed">Endzeit</ion-label>
+          <ion-button fill="clear" :id="getIdByMode('end')">{{ endDate ? formatDateTime(endDate) : 'Keine Endzeit ausgewählt' }}</ion-button>
+        </ion-item>
 
-    <ion-item lines="full">
-      <ion-label position="fixed"></ion-label>
-      <tag-chips :tags="tagsList" />
-    </ion-item>
+        <ion-item lines="none">
+          <ion-label position="fixed">Tags</ion-label>
+          <ion-input placeholder="Tags eingeben..." @input="event => tags = event.target.value" />
+        </ion-item>
 
-    <div class="add">
-      <ion-button @click="addEntry" :disabled="!(tags && beginDate && endDate)" class="add-button"><ion-icon slot="start" name="add"></ion-icon>Zeit hinzufügen</ion-button>
-    </div>
+        <ion-item lines="full">
+          <ion-label position="fixed"></ion-label>
+          <tag-chips :tags="tagsList" />
+        </ion-item>
 
-    <date-picker trigger="begin" @input="value => beginDate = value" />
-    <date-picker trigger="end" @input="value => endDate = value" />
-  </ion-text>
+        <div class="add">
+          <ion-button @click="clear()" class="add-button" color="medium">
+            <ion-icon slot="start" name="close-outline"></ion-icon>
+            Abbrechen
+          </ion-button>
+          <ion-button @click="addEntry" :disabled="!(tags && beginDate && endDate)" class="add-button">
+            <ion-icon slot="start" :name="getByMode('add-outline', 'checkmark-outline', 'flash-outline')"></ion-icon>
+            {{ getByMode('Zeit hinzufügen', 'Zeit aktualisieren', 'Filter anwenden') }}
+          </ion-button>
+        </div>
+
+        <date-picker :trigger="getIdByMode('begin')" @input="value => beginDate = value" />
+        <date-picker :trigger="getIdByMode('end')" @input="value => endDate = value" />
+      </div>
+<!--    </ion-content>-->
+  </ion-modal>
 </template>
 
 <script>
@@ -38,6 +53,14 @@ import TagChips from "@/components/TagChips";
 export default {
   name: "TrackComponent",
   components: {TagChips, DatePicker, IonButton },
+  props: {
+    mode: {
+      type: String, // add, edit, filter
+      default: 'add'
+    },
+    trigger: String,
+    open: Boolean,
+  },
   data: () => ({
     tags: '',
     beginDate: null,
@@ -46,11 +69,25 @@ export default {
   methods: {
     formatDateTime,
     addEntry() {
-      this.$emit('add', {
+      this.$emit('submit', {
         tags: this.tagsList,
         startTime: toDate(this.beginDate),
         endTime: toDate(this.endDate),
       });
+    },
+    clear() {
+      this.tags = '';
+      this.beginDate = null;
+      this.endDate = null;
+      this.$emit('close');
+    },
+    getByMode(add, edit, filter) {
+      return  this.mode === 'add' ? add :
+              this.mode === 'edit' ? edit :
+              this.mode === 'filter' ? filter : 'Unbekannter Modus';
+    },
+    getIdByMode(id) {
+      return `${this.mode}-${id}`; // so that trigger does not open other track-component modals too
     }
   },
   computed: {
@@ -72,5 +109,9 @@ ion-modal {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
+}
+.title {
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 </style>

@@ -2,33 +2,47 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title>Der Time Trekker</ion-title>
+        <ion-title>Timetracker</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
-      <track-component @add="data => addEntry(data)" />
       <br>
-      <ion-button @click="addTestEntry">Add test entry</ion-button>
-      <ion-button @click="filterModalOpen = true" color="dark" fill="clear">Filter&nbsp;<ion-badge :color="filtersAreActive ? 'dark' : 'light'">{{filtersAreActive ? '' : 'in'}}active</ion-badge></ion-button>
+      <!--<ion-button @click="addTestEntry">Add test entry</ion-button>-->
 
-      <ion-modal
-          :is-open="filterModalOpen"
-          :swipe-to-close="true"
-          :presenting-element="$parent.$refs.ionRouterOutlet"
-          @didDismiss="filterModalOpen = false"
-      >
-<!--        <Modal :data="data"></Modal>-->
-      </ion-modal>
+<!--      <ion-modal-->
+<!--          :is-open="filterModalOpen"-->
+<!--          :swipe-to-close="true"-->
+<!--          :presenting-element="$parent.$refs.ionRouterOutlet"-->
+<!--          @didDismiss="filterModalOpen = false"-->
+<!--      >-->
+<!--      &lt;!&ndash;<Modal :data="data"></Modal>&ndash;&gt;-->
+<!--      </ion-modal>-->
+
+      <div class="entries-header">
+        <ion-title>Getrackte Zeiten</ion-title>
+        <ion-button id="filter-button" @click="modalFilter = true" color="dark" fill="clear">
+          <ion-icon slot="start" name="filter-outline"></ion-icon>
+          Filter&nbsp;
+          <ion-badge :color="filtersAreActive ? 'dark' : 'light'">{{filtersAreActive ? '' : 'in'}}active</ion-badge>
+        </ion-button>
+      </div>
 
       <ion-list>
-        <ion-list-header>Tracked Time Entries</ion-list-header>
         <time-entry v-for="timeEntry in (filtersAreActive ? filteredEntries : entries)"
                     :key="timeEntry.tags + timeEntry.startTime + timeEntry.endTime"
                     @delete="deleteEntry(entries.indexOf(timeEntry))"
                     :tags="timeEntry.tags" :from="timeEntry.startTime" :until="timeEntry.endTime"/>
       </ion-list>
+
+      <track-component mode="add" :open="modalAdd" @submit="data => addEntry(data)" @close="modalAdd = false" />
+      <track-component mode="edit" :open="modalEdit" @close="modalEdit = false" />
+      <track-component mode="filter" :open="modalFilter" @close="modalFilter = false" />
     </ion-content>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button id="add-button" @click="modalAdd = true"><ion-icon name="add"></ion-icon></ion-fab-button>
+    </ion-fab>
   </ion-page>
 </template>
 
@@ -48,7 +62,9 @@ export default {
       tags: [],
       date: null,
     },
-    filterModalOpen: false,
+    modalAdd: false,
+    modalEdit: false,
+    modalFilter: false,
   }),
   async mounted() {
     this.store = new Storage();
@@ -113,5 +129,8 @@ export default {
 </script>
 
 <style scoped>
-
+.entries-header {
+  display: flex;
+  justify-content: space-between;
+}
 </style>
