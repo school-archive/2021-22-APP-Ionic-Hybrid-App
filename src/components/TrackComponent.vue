@@ -21,7 +21,7 @@
     </ion-item>
 
     <div class="add">
-      <ion-button class="add-button"><ion-icon slot="start" name="add"></ion-icon>Zeit hinzufügen</ion-button>
+      <ion-button @click="addEntry" :disabled="!(tags && beginDate && endDate)" class="add-button"><ion-icon slot="start" name="add"></ion-icon>Zeit hinzufügen</ion-button>
     </div>
 
     <date-picker trigger="begin" @input="value => beginDate = value" />
@@ -45,6 +45,13 @@ export default {
   }),
   methods: {
     formatDateTime,
+    addEntry() {
+      this.$emit('add', {
+        tags: this.tags,
+        startTime: this.beginDate,
+        endTime: this.endDate,
+      });
+    }
   },
   computed: {
     tagsList() {

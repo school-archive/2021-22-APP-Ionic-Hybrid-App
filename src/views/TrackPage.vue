@@ -7,7 +7,7 @@
     </ion-header>
 
     <ion-content :fullscreen="true">
-      <track-component/>
+      <track-component @add="data => addEntry(data)" />
       <br>
       <ion-button @click="addTestEntry">Add test entry</ion-button>
       <ion-button @click="filterModalOpen = true" color="dark" fill="clear">Filter&nbsp;<ion-badge :color="filtersAreActive ? 'dark' : 'light'">{{filtersAreActive ? '' : 'in'}}active</ion-badge></ion-button>
