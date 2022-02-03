@@ -1,27 +1,36 @@
 <template>
   <ion-item-sliding>
-    <ion-item lines="full">
-      <tag-chips :tags="tags" />
-      <p class="dates">{{ formatDate(from, 'dd.MM.') }} bis {{ formatDate(until, 'dd.MM.') }}</p>
-      <p>{{ timeInHours }}:{{timeInMinutes}} h</p>
+    <ion-item lines="full" class="entry">
+      <div style="max-width: calc(100% - 180px - 50px);" slot="start"><tag-chips :tags="tags" /></div>
+      <div slot="end" style="display: flex; flex-direction: column; align-items: end">
+        <div style="margin-bottom: 2px;">{{ formatDate(from, 'dd.MM.') }} – {{ formatDate(until, 'dd.MM.') }}</div>
+        <div>{{ timeInHours }}:{{timeInMinutes}} h</div>
+      </div>
+      <ion-button slot="end" fill="clear" color="danger" style="margin: 0; margin-left: 10px;" @click="$emit('delete')">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
     </ion-item>
-    <ion-item-options side="start">
-      <ion-item-option color="primary" @click="$emit('editStart')">Edit Start</ion-item-option>
-      <ion-item-option color="secondary" @click="$emit('editEnd')">Edit End</ion-item-option>
-    </ion-item-options>
-    <ion-item-options side="end">
-      <ion-item-option color="danger" @click="$emit('delete')">Delete</ion-item-option>
-    </ion-item-options>
+<!--    <ion-item-options side="start">-->
+<!--      <ion-item-option color="primary" @click="$emit('editStart')">Edit Start</ion-item-option>-->
+<!--      <ion-item-option color="secondary" @click="$emit('editEnd')">Edit End</ion-item-option>-->
+<!--    </ion-item-options>-->
+<!--    <ion-item-options side="end">-->
+<!--      <ion-item-option color="danger" @click="$emit('delete')">Delete</ion-item-option>-->
+<!--    </ion-item-options>-->
   </ion-item-sliding>
 </template>
 
 <script>
 import TagChips from "@/components/TagChips";
 import {formatDate} from "@/utils/time";
+import IonItemOption from "@ionic/vue"
+import IonItemOptions from "@ionic/vue"
 export default {
   name: "TimeEntry",
   components: {
-    TagChips
+    TagChips,
+    // IonItemOption,
+    // IonItemOptions,
   },
   props: {
     from: Date,

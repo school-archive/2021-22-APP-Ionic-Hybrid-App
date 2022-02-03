@@ -7,7 +7,7 @@
     </ion-header>
 
     <ion-content :fullscreen="true">
-      <br>
+<!--      <br>-->
       <!--<ion-button @click="addTestEntry">Add test entry</ion-button>-->
 
 <!--      <ion-modal-->
@@ -19,7 +19,7 @@
 <!--      &lt;!&ndash;<Modal :data="data"></Modal>&ndash;&gt;-->
 <!--      </ion-modal>-->
 
-      <div class="entries-header ion-margin-bottom">
+      <div class="entries-header">
         <h5 class="ion-margin">Zeit gesamt: {{ totalTime }}</h5>
         <ion-button class="ion-margin" id="filter-button" @click="modalFilter = true" color="dark" fill="clear">
           <ion-icon slot="start" name="filter-outline"></ion-icon>
