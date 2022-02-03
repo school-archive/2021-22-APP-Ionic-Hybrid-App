@@ -1,10 +1,10 @@
 import { format, parseISO } from 'date-fns';
 
-export function formatDateTime(datetime: string, formatString = 'dd-MM-yyyy HH:mm') {
+export function formatDateTime(datetime: string, formatString = 'HH:mm  dd-MM-yyyy') {
     return format(parseISO(datetime), formatString);
 }
 
-export function formatDate(date: Date, formatString = 'dd-MM-yyyy HH:mm') {
+export function formatDate(date: Date, formatString = 'HH:mm  dd-MM-yyyy') {
     return format(date, formatString);
 }
 

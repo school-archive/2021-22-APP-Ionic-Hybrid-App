@@ -3,8 +3,9 @@
     <ion-item lines="full" class="entry">
       <div style="max-width: calc(100% - 180px - 50px);" slot="start"><tag-chips :tags="tags" /></div>
       <div slot="end" style="display: flex; flex-direction: column; align-items: end">
-        <div style="margin-bottom: 2px;">{{ formatDate(from, 'dd.MM.') }} – {{ formatDate(until, 'dd.MM.') }}</div>
-        <div>{{ timeInHours }}:{{timeInMinutes}} h</div>
+        <div style="margin-bottom: 2px;"><ion-icon name="exit"></ion-icon> {{ formatDate(from) }}</div>
+        <div style="margin-bottom: 2px;"><ion-icon name="enter"></ion-icon> {{ formatDate(until) }}</div>
+        <div><ion-icon name="time"></ion-icon> {{ timeInHours }}:{{timeInMinutes}} h</div>
       </div>
       <ion-button slot="end" fill="clear" color="danger" style="margin: 0; margin-left: 10px;" @click="$emit('delete')">
         <ion-icon slot="icon-only" name="close-outline"></ion-icon>
