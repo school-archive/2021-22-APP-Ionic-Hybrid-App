@@ -21,8 +21,8 @@ export default {
   display: flex;
   flex-grow: 1;
   flex-wrap: wrap;
-  white-space: nowrap;
-  overflow-x: scroll;
+  /*white-space: nowrap;*/
+  /*overflow-x: scroll;*/
 }
 .no-tags {
   font-style: italic;
