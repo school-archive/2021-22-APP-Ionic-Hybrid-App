@@ -1,5 +1,5 @@
 <template>
-  <ion-page>
+  <ion-page style="height: 100%;">
     <ion-header :translucent="true">
       <ion-toolbar>
         <ion-title>Timetracker</ion-title>
@@ -19,9 +19,9 @@
 <!--      &lt;!&ndash;<Modal :data="data"></Modal>&ndash;&gt;-->
 <!--      </ion-modal>-->
 
-      <div class="entries-header">
-        <ion-title>Zeit gesamt: {{ totalTime }}</ion-title>
-        <ion-button id="filter-button" @click="modalFilter = true" color="dark" fill="clear">
+      <div class="entries-header ion-margin-bottom">
+        <h5 class="ion-margin">Zeit gesamt: {{ totalTime }}</h5>
+        <ion-button class="ion-margin" id="filter-button" @click="modalFilter = true" color="dark" fill="clear">
           <ion-icon slot="start" name="filter-outline"></ion-icon>
           Filter&nbsp;
           <ion-badge :color="filtersAreActive ? 'dark' : 'light'">{{filtersAreActive ? '' : 'in'}}active</ion-badge>
@@ -43,11 +43,11 @@
       <track-component mode="edit" :open="modalEdit" @close="modalEdit = false" />
       <track-component mode="filter" :open="modalFilter" @submit="data => setFilters(data)" @close="modalFilter = false" />
     </ion-content>
-
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button id="add-button" @click="modalAdd = true"><ion-icon name="add"></ion-icon></ion-fab-button>
-    </ion-fab>
   </ion-page>
+
+  <ion-fab vertical="bottom" horizontal="end" bottom end>
+    <ion-button id="add-button" @click="modalAdd = true"><ion-icon name="add"></ion-icon></ion-button>
+  </ion-fab>
 </template>
 
 <script>
@@ -151,6 +151,7 @@ export default {
 .entries-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .no-entries {
   height: calc(100% - 56px - 9px - 44px);
@@ -160,5 +161,15 @@ export default {
   align-items: center;
   font-style: italic;
   color: grey;
+}
+ion-button#add-button::part(native) {
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+}
+ion-button#add-button {
+  height: fit-content;
+  float: right;
+  margin: 10px;
 }
 </style>

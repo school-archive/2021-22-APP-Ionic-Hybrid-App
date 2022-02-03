@@ -3,7 +3,7 @@
 <!--    <ion-content force-overscroll="false">-->
       <div>
 <!--        <ion-toolbar>-->
-          <ion-title class="title">{{ getByMode('Neue Zeit', 'Zeit bearbeiten', 'Filter') }}</ion-title>
+          <h5 class="title ion-margin ion-margin-bottom">{{ getByMode('Neue Zeit', 'Zeit bearbeiten', 'Filter') }}</h5>
 <!--        </ion-toolbar>-->
 
         <ion-item lines="full">
@@ -18,7 +18,7 @@
 
         <ion-item lines="none">
           <ion-label position="fixed">Tags</ion-label>
-          <ion-input placeholder="Tags eingeben..." :value="tags" @input="event => tags = event.target.value" />
+          <input class="input" placeholder="Tags eingeben..." :value="tags" @input="event => tags = event.target.value" />
         </ion-item>
 
         <ion-item lines="full">
@@ -139,5 +139,13 @@ ion-modal {
 .title {
   margin-top: 20px;
   margin-bottom: 10px;
+}
+.input {
+  border: none;
+  background-color: transparent;
+  padding: 10px;
+}
+.input:focus {
+  outline: none!important;
 }
 </style>
